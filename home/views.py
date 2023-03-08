@@ -8,6 +8,7 @@ from permissions import IsOwnerOrReadOnly
 
 class Home(APIView):
     permission_classes = [IsAuthenticated,]
+    serializer_class = PersonSerializer
     
     def get(self, request):
         persons = Person.objects.all()
@@ -20,13 +21,18 @@ class Home(APIView):
 
 
 class QuestionListView(APIView):
+    serializer_class = QuestionSerializer
     def get(self, request):
         questions = Question.objects.all()
         ser_data = QuestionSerializer(instance=questions, many=True)
         return Response(data=ser_data.data, status=status.HTTP_200_OK)
 
 class QuestionCreateView(APIView):
+    """
+    Create New Question 
+    """
     permission_classes = [IsAuthenticated,]
+    serializer_class = QuestionSerializer
 
     def post(self, request):
         sez_data = QuestionSerializer(data=request.POST)

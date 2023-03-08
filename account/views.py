@@ -9,6 +9,8 @@ from django.shortcuts import get_object_or_404
 
 
 class RegisterAPI(APIView):
+    serializer_class = RegisterAPISerializers
+
     def post(self, request):
         ser_register_data = RegisterAPISerializers(data=request.POST)
         if ser_register_data.is_valid():
@@ -20,6 +22,7 @@ class RegisterAPI(APIView):
 class UserViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated,]
     queryset = User.objects.all()
+    serializer_class = UserSerializers
 
     def list(self, request):
         srz_data = UserSerializers(instance=self.queryset, many=True)
